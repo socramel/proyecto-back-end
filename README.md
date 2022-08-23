@@ -1,7 +1,14 @@
-APP PARA COMPARTIR ENLACES
-Implementar una API que permita a los usuarios registrarse y compartir enlaces web que consideren interesantes.
+APP PARA COMPARTIR ENLACES (AGREGADOR DE NOTICIAS)
 
-ENTIDADES:
+Implementación de una API que permita a los usuarios registrados compartir y votar enlaces web que consideren interesantes (agregador de noticias).
+
+Para registrarse tendrán que indicar un nombre, un correo electrónico y una contraseña.
+
+Tras registrar un usuario podrán iniciar la sesión (indicando el e-mail y la contraseña) y una vez logueados podrán ver los enlaces de otros usuarios, publicar los suyos propios (URL, título y descripción) y votar los enlaces de los demás usuarios.
+
+Además el usuario tendrá la opción de editar sus datos de perfil (nombre, e-mail y password) y la opción de borrar sus propios enlaces.
+
+ENTIDADES
 
 - Users
     - id
@@ -24,12 +31,12 @@ ENTIDADES:
     - create_at
 
 
-ENDPOINTS:
+ENDPOINTS
 
 // Usuario
 - POST /users - Registro de usuario
 - GET /users/info/:id - Devuelve la información de un usuario (id, name, e-mail, created_at).
-- PUT /users/info/:id - Edita la información de un usuario (name, e-mail, password).
+- PUT /users/info - Edita la información de un usuario (name, e-mail, password).
 - POST /users/login - Loguearse con e-mail y contraseña. Si son correctos devuelve un token.
 
 // Links
@@ -39,4 +46,3 @@ ENDPOINTS:
 
 // Votos
 - POST /votes/:link_id - Añade un voto a un link (sólo puedes votar los links que no sean creados por ti).
-

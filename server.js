@@ -36,7 +36,7 @@ app.use(fileUpload());
 // Rutas de usuario
 app.post('/users', newUserController);
 app.get('/users/info/:id', getUserController);
-app.put('/users/info/', authUser, editUserController);
+app.put('/users/info', authUser, editUserController);
 app.post('/users/login', loginController);
 
 // Rutas de enlaces
@@ -64,45 +64,6 @@ app.use((error, req, res, next) => {
         message: error.message,
     });
 });
-
-/*
-Entidades:
-
-- User
-    - id
-    - name
-    - email
-    - password
-    - created_at
-- Link
-    - id
-    - user_id (o id do usuario que creou o link)
-    - url
-    - title
-    - description
-    - created_at
-
-- Vote
-    - id
-    - user_id
-    - link_id
-    - create_at
-
-Rutas:
-
-- POST /users - crea un novo usuario (rexistro)
-- GET /users/info/:id - devolve a información dun usuario (id, name, email, created_at)
-- PUT /users/info/:id - edita a inforación dun usuario (NECESITA TOKEN e só podes editar o teu usuario)
-- POST /users/login - envias email e password e devolve token
-
-- GET /links - devolve todos os links ordenados por created_at (descendente)
-- POST /links - crea un novo link (enviando no body os datos necesarios) NECESITA TOKEN
-- DELETE /links/:id - borra un link (NECESITA TOKEN e só podes borrar os links creados por ti)
-
-- POST /votes/:link_id - engade un voto a un link (NECESITA TOKEN e só podes votar links que non sexan creados por ti)
-*/
-
-
 
 app.use((req, res) => {
     res.status(404).send({
