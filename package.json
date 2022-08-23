@@ -1,0 +1,30 @@
+{
+  "name": "proyecto-back-end",
+  "version": "1.0.0",
+  "description": "TÍTULO App para compartir enlaces. DESCRIPCIÓN Implementar una API que permita a los usuarios registrarse y compartir enlaces web que consideren interesantes. Otros usuarios podrán votarlos si les gustan. USUARIOS ANÓNIMOS Los usuarios anónimos sólo podrán registrarse y acceder. No hay contenido accesible públicamente. ● Login (email, password) ● Registro (nombre, email, password) USUARIOS REGISTRADOS ● Ver los enlaces publicados en el día de hoy y en días anteriores ● Publicar nuevo enlace ○ URL ○ Título ○ Descripción ● Borrar un enlace publicado por el usuario ● Votar un enlace de otro usuario ● Editar perfil de usuario: (nombre, email, password) ● Opcional: ○ Edición avanzada del perfil de usuario (biografía, foto)",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "Marcos Lema",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.21.0",
+    "nodemon": "^2.0.19",
+    "prettier": "^2.7.1"
+  },
+  "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "bcrypt": "^5.0.1",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-fileupload": "^1.4.0",
+    "fs.promises": "^0.1.2",
+    "helpers": "^0.0.6",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.3.3"
+  }
+}
