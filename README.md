@@ -8,6 +8,8 @@ Tras registrar un usuario podrán iniciar la sesión (indicando el e-mail y la c
 
 Además el usuario tendrá la opción de editar sus datos de perfil (nombre, e-mail y password) y la opción de borrar sus propios enlaces.
 
+A continuación se muestran las entidades y las rutas que definirán nuestra API:
+
 ENTIDADES
 
 - Users
@@ -16,6 +18,7 @@ ENTIDADES
     - email
     - password
     - created_at
+    
 - Links
     - id
     - user_id
@@ -34,7 +37,7 @@ ENTIDADES
 ENDPOINTS
 
 // Usuario
-- POST /users - Registro de usuario
+- POST /users - Registro de usuario.
 - GET /users/info/:id - Devuelve la información de un usuario (id, name, e-mail, created_at).
 - PUT /users/info - Edita la información de un usuario (name, e-mail, password).
 - POST /users/login - Loguearse con e-mail y contraseña. Si son correctos devuelve un token.
