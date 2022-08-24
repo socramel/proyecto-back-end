@@ -31,7 +31,7 @@ ENTIDADES
     - id
     - user_id
     - link_id
-    - create_at
+    - created_at
 
 
 ENDPOINTS
