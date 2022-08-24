@@ -1,6 +1,6 @@
 APP PARA COMPARTIR ENLACES (AGREGADOR DE NOTICIAS)
 
-Implementación de una API que permita a los usuarios registrados (users) compartir y votar enlaces web (links) que consideren interesantes (agregador de noticias).
+Implementación de una API que permita a los usuarios registrados (users) compartir y votar enlaces web (links) que consideren interesantes.
 
 Para registrarse tendrán que indicar un nombre, un correo electrónico y una contraseña.
 
