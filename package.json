@@ -1,7 +1,7 @@
 {
   "name": "proyecto-back-end",
   "version": "1.0.0",
-  "description": "API que permita a usuarios registrados compartir y votar enlaces web"
+  "description": "API que permita a usuarios registrados compartir y votar enlaces web",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

@@ -72,14 +72,14 @@ app.use((req, res) => {
     });
 });
 
-app.use((error, req, res, next) => {
+/* app.use((error, req, res, next) => {
     console.error(error);
 
     res.status(error.httpStatus || 500).send({
         status: 'error',
         message: 'error.message',
     });
-});
+}); */
 
 const PORT = process.env.PORT;
 
