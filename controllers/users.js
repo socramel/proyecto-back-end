@@ -4,10 +4,11 @@ const { generateError } = require('../helpers');
 const { createUser, getUserById, getUserByEmail, updateUser } = require("../db/users");
 const { authSchema } = require('../middlewares/authRoute');
 
-// Controlador para registrar nuevo usuario
+// Controlador para crear/registrar un nuevo usuario
 const newUserController = async (req, res, next) => {
     try {
         const { name, email, password } = req.body;
+        console.log(password);
 
         // Importamos el objeto con las restricciones de Joi
         const result = await authSchema.validateAsync(req.body);
@@ -18,16 +19,18 @@ const newUserController = async (req, res, next) => {
         }
 
         const id = await createUser(name, email, password);
+        console.log(id);
 
         res.send({
             status: 'ok',
-            message: `User created with id: ${id}`,
+            message: `Usuario creado con id: ${id}`,
         });
     } catch(error) {
         next(error);
     }
 };
 
+// Controlador que devuelve la información de un usuario
 const getUserController = async (req, res, next) => {
     try {
         const {id} = req.params;
@@ -43,21 +46,7 @@ const getUserController = async (req, res, next) => {
     }
 };
 
-const editUserController = async (req, res, next) => {
-    try {
-        const { name, email, password } = req.body;
-        console.log(req.body);
-        const editUser = await updateUser(req.userId, name, email, password);
-
-        res.send({
-            status: 'ok',
-            data: editUser,
-        });
-    } catch(error) {
-        next(error);
-    }
-}
-
+// Controlador para login de un usuario
 const loginController = async (req, res, next) => {
     try {
         const { email, password } = req.body;
@@ -85,7 +74,6 @@ const loginController = async (req, res, next) => {
         });
 
         // Envío el token
-
         res.send({
             status: 'ok',
             data: token,
@@ -95,10 +83,26 @@ const loginController = async (req, res, next) => {
     }
 };
 
+// Controlador para editar los datos de usuario
+const editUserController = async (req, res, next) => {
+    try {
+        const { name, email, password } = req.body;
+        console.log(req.body);
+        const editUser = await updateUser(req.userId, name, email, password);
+
+        res.send({
+            status: 'ok',
+            data: editUser,
+        });
+    } catch(error) {
+        next(error);
+    }
+}
+
 // Exportamos las funciones de controladores de las rutas de users
 module.exports = {
     newUserController,
     getUserController,
-    editUserController,
     loginController,
+    editUserController,
 };

@@ -1,6 +1,7 @@
 const { generateError } = require('../helpers');
 const { getConnection } = require('./db');
 
+// Controlador para crear un nuevo link
 const createLink = async (userId, url, title, description) => {
     let connection;
 
@@ -11,6 +12,7 @@ const createLink = async (userId, url, title, description) => {
         INSERT INTO links (user_id, url, title, description)
         VALUES (?,?,?,?)
         `, [userId, url, title, description]);
+        console.log(result.insertId);
 
         return result.insertId;
 
@@ -19,6 +21,7 @@ const createLink = async (userId, url, title, description) => {
     }
 };
 
+// Controlador para obtener un link por su id
 const getLinkById = async (id) => {
     let connection;
 
@@ -40,6 +43,7 @@ const getLinkById = async (id) => {
     }
 };
 
+// Controlador para obtener los links creados
 const getAllLinks = async () => {
     let connection;
 
@@ -56,6 +60,7 @@ const getAllLinks = async () => {
     }
 };
 
+// Controlador para borrar un link (cada usuario sólo los creados por él mismo)
 const deleteLinkById = async (id) => {
     let connection;
 

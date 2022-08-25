@@ -1,8 +1,9 @@
 const { createLink, getAllLinks, getLinkById, deleteLinkById } = require("../db/links");
 const { generateError } = require('../helpers');
+// const { createUser, getUserById, getUserByEmail, updateUser } = require("../db/users");
 
+// Controlador para crear un nuevo link
 const newLinkController = async (req, res, next) => {
-
         try {
             const {url, title, description} = req.body;
 
@@ -23,6 +24,7 @@ const newLinkController = async (req, res, next) => {
     }
 };
 
+// Controlador que devuelva los links existentes
 const getLinkController = async (req, res, next) => {
     try {
         const links = await getAllLinks();
@@ -36,6 +38,7 @@ const getLinkController = async (req, res, next) => {
     }
 };
 
+// Controlador para borrar un link (sólo el del propio usuario)
 const deleteLinkController = async (req, res, next) => {
 
     try {
@@ -62,7 +65,7 @@ const deleteLinkController = async (req, res, next) => {
 
 // Exporto funciones de controladores de rutas de links
 module.exports = {
-    getLinkController,
     newLinkController,
+    getLinkController,
     deleteLinkController,
 };

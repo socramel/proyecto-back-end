@@ -2,7 +2,42 @@ const bcrypt = require('bcrypt');
 const { generateError } = require('../helpers');
 const { getConnection } = require('./db');
 
-// Email
+// Crea un usuario en la base de datos y devuelve su id
+const createUser = async (name, email, password) => {
+    let connection;
+
+    try {
+        connection = await getConnection();
+        const [user] = await connection.query(
+            `
+            SELECT id FROM users WHERE email = ?
+        `, [email]
+        );
+
+        if(user.length > 0) {
+            throw generateError('Ya existe un usuario en la base de datos con ese e-mail', 409);
+        }
+
+        //Encriptar la contraseña con bcrypt
+        const passwordHash = await bcrypt.hash(password, 8);
+
+        //Crear el usuario
+        const [newUser] = await connection.query(
+            `
+            INSERT INTO users (name, email, password) VALUES (?, ?, ?)
+            `,
+            [name, email, passwordHash]
+            );
+
+        //Devolver la id
+        return newUser.insertId;
+
+    } finally {    
+        if (connection) connection.release();
+    }
+}
+
+// Devuelve un usuario por su email de registro
 const getUserByEmail = async (email) => {
     let connection;
 
@@ -26,7 +61,6 @@ const getUserByEmail = async (email) => {
         if(connection) connection.release();
     }
 };
-
 
 // Devuelve la información pública de un usuario por su id
 const getUserById = async (id) => {
@@ -53,49 +87,13 @@ const getUserById = async (id) => {
     }
 };
 
-// Crea un usuario en la base de datos y devuelve su id
-const createUser = async (name, email, password) => {
-    let connection;
-
-    try {
-        connection = await getConnection();
-        const [user] = await connection.query(
-            `
-        SELECT id FROM users WHERE email = ?
-        `,
-        [email]
-        );
-
-        if(user.length > 0) {
-            throw generateError('Ya existe un usuario en la base de datos con ese e-mail', 409);
-        }
-
-        //Encriptar la contraseña con bcrypt
-        const passwordHash = await bcrypt.hash(password, 8);
-
-        //Crear el usuario
-        const [newUser] = await connection.query(
-            `
-            INSERT INTO users (name, email, password) VALUES (?, ?, ?)
-            `,
-            [name, email, passwordHash]
-            );
-
-        //Devolver la id
-        return newUser.insertID;
-
-    } finally {
-        if (connection) connection.release();
-    }
-}
-
 // Editar usuario
 const updateUser = async (userId, name, email, password) => {
     let connection;
 
     try {
         connection = await getConnection();
-        const [editUser] = connection.query(
+        const editUser = connection.query(
             `
             UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?
             `,

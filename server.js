@@ -36,8 +36,8 @@ app.use(fileUpload());
 // Rutas de usuario
 app.post('/users', newUserController);
 app.get('/users/info/:id', getUserController);
-app.put('/users/info', authUser, editUserController);
 app.post('/users/login', loginController);
+app.put('/users/info', authUser, editUserController);
 
 // Rutas de enlaces
 app.post('/links', authUser, newLinkController);

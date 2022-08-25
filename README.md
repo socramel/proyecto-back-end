@@ -39,8 +39,8 @@ ENDPOINTS
 // Usuario
 - POST /users - Registro de usuario.
 - GET /users/info/:id - Devuelve la información de un usuario (id, name, e-mail, created_at).
-- PUT /users/info - Edita la información de un usuario (name, e-mail, password).
 - POST /users/login - Loguearse con e-mail y contraseña. Si son correctos devuelve un token.
+- PUT /users/info - Edita la información de un usuario (name, e-mail, password).
 
 // Links
 - POST /links - Crea un nuevo link.
