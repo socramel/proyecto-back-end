@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 const fileUpload = require("express-fileupload");
 
 // Importo las funciones de los controladores de rutas de users
@@ -30,6 +31,7 @@ const app = express();
 
 app.use(express.json());
 app.use(morgan('dev'));
+app.use(cors());
 app.use(fileUpload());
 
 //ENDPOINTS
@@ -41,7 +43,7 @@ app.put('/users/info', authUser, editUserController);
 
 // Rutas de enlaces
 app.post('/links', authUser, newLinkController);
-app.get('/links', getLinkController);
+app.get('/links', authUser, getLinkController);
 app.delete('/links/:id', authUser, deleteLinkController);
 
 // Rutas de voto
