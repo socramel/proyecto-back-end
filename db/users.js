@@ -4,111 +4,111 @@ const { getConnection } = require('./db');
 
 // Crea un usuario en la base de datos y devuelve su id
 const createUser = async (name, email, password) => {
-    let connection;
+  let connection;
 
-    try {
-        connection = await getConnection();
-        const [user] = await connection.query(
-            `
+  try {
+    connection = await getConnection();
+    const [user] = await connection.query(
+      `
             SELECT id FROM users WHERE email = ?
-        `, [email]
-        );
+        `,
+      [email]
+    );
 
-        if(user.length > 0) {
-            throw generateError('Ya existe un usuario en la base de datos con ese e-mail', 409);
-        }
+    if (user.length > 0) {
+      throw generateError(
+        'Ya existe un usuario en la base de datos con ese e-mail',
+        409
+      );
+    }
 
-        //Encriptar la contraseña con bcrypt
-        const passwordHash = await bcrypt.hash(password, 8);
+    //Encriptar la contraseña con bcrypt
+    const passwordHash = await bcrypt.hash(password, 8);
 
-        //Crear el usuario
-        const [newUser] = await connection.query(
-            `
+    //Crear el usuario
+    const [newUser] = await connection.query(
+      `
             INSERT INTO users (name, email, password) VALUES (?, ?, ?)
             `,
-            [name, email, passwordHash]
-            );
+      [name, email, passwordHash]
+    );
 
-        //Devolver la id
-        return newUser.insertId;
-
-    } finally {    
-        if (connection) connection.release();
-    }
-}
+    //Devolver la id
+    return newUser.insertId;
+  } finally {
+    if (connection) connection.release();
+  }
+};
 
 // Devuelve un usuario por su email de registro
 const getUserByEmail = async (email) => {
-    let connection;
+  let connection;
 
-    try {
-        connection = await getConnection();
+  try {
+    connection = await getConnection();
 
-        const [result] = await connection.query(
-            `
+    const [result] = await connection.query(
+      `
         SELECT * FROM users WHERE email = ?
         `,
-        [email]
-        );
+      [email]
+    );
 
-    if(result.length === 0) {
-        throw generateError('No hay ningún usuario con ese e-mail', 404);
+    if (result.length === 0) {
+      throw generateError('No hay ningún usuario con ese e-mail', 404);
     }
 
     return result[0];
-
-    } finally {
-        if(connection) connection.release();
-    }
+  } finally {
+    if (connection) connection.release();
+  }
 };
 
 // Devuelve la información pública de un usuario por su id
 const getUserById = async (id) => {
-    let connection;
+  let connection;
 
-    try {
-        connection = await getConnection();
+  try {
+    connection = await getConnection();
 
-        const [result] = await connection.query(
-            `
-        SELECT id, name, email, created_at FROM users WHERE id=?
+    const [result] = await connection.query(
+      `
+        SELECT id, name, email, created_at FROM users WHERE id = ?
         `,
-        [id]
-        );
+      [id]
+    );
 
-    if(result.length === 0) {
-        throw generateError('No hay ningún usuario con esa id', 404);
+    if (result.length === 0) {
+      throw generateError('No hay ningún usuario con esa id', 404);
     }
 
     return result[0];
-
-    } finally {
-        if(connection) connection.release();
-    }
+  } finally {
+    if (connection) connection.release();
+  }
 };
 
 // Editar usuario
 const updateUser = async (userId, name, email, password) => {
-    let connection;
+  let connection;
 
-    try {
-        connection = await getConnection();
-        const editUser = connection.query(
-            `
+  try {
+    connection = await getConnection();
+    const editUser = connection.query(
+      `
             UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?
             `,
-            [name, email, password, userId]
-        ) ;
-        return editUser;
-
-    } finally {
-        if (connection) connection.release();
-    }
-}
+      [name, email, password, userId]
+    );
+    return editUser;
+  } finally {
+    if (connection) connection.release();
+  }
+};
 
 module.exports = {
-    createUser,
-    getUserById,
-    getUserByEmail,
-    updateUser,
+  createUser,
+  getUserById,
+  getUserByEmail,
+  updateUser,
 };

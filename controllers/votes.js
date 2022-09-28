@@ -1,5 +1,5 @@
 const { getLinkById } = require("../db/links");
-const { newVote } = require("../db/votes");
+const { newVote, repeatVote } = require("../db/votes");
 const { generateError } = require("../helpers");
 
 const newVoteController = async (req, res, next) => {
@@ -23,6 +23,16 @@ const newVoteController = async (req, res, next) => {
     }
 };
 
+const repeatVoteController = async (req, res, next) => {
+    try {
+        const noRepeatVote = await repeatVote();
+    } catch(error) {
+        next(error);
+    }
+};
+
+
 module.exports = {
     newVoteController,
+    repeatVoteController,
 };

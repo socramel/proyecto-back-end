@@ -4,6 +4,8 @@ const {generateError} = require('../helpers');
 const authUser = (req, res, next) => {
     try {
         const { authorization } = req.headers;
+        console.log("headers", req.headers)
+
         if (!authorization) {
             throw generateError('Falta la cabecera de Authorization', 401);
         }
@@ -13,7 +15,7 @@ const authUser = (req, res, next) => {
 
         try {
             token = jwt.verify(authorization, process.env.SECRET)
-        } catch { 
+        } catch(error) { 
             throw generateError('Token incorrecto', 401);
         }
 

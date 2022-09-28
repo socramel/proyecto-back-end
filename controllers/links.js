@@ -1,71 +1,100 @@
-const { createLink, getAllLinks, getLinkById, deleteLinkById } = require("../db/links");
+const {
+  createLink,
+  getAllLinks,
+  getLinkById,
+  deleteLinkById,
+} = require('../db/links');
+
 const { generateError } = require('../helpers');
-// const { createUser, getUserById, getUserByEmail, updateUser } = require("../db/users");
 
 // Controlador para crear un nuevo link
 const newLinkController = async (req, res, next) => {
-        try {
-            const {url, title, description} = req.body;
+  try {
+    const { url, title, description } = req.body;
 
-            if(!url || url.length > 250) {
-                throw generateError(
-                    'Debe introducir una url correcta o de menos de 250 caracteres', 400
-                );
-            }
-        
-            const id = await createLink(req.userId, url, title, description);
-
-        res.send({
-            status: 'ok',
-            message: `Link con id: ${id} creado correctamente`,
-        });
-    } catch(error) {
-        next(error);
+    if (!url || url.length > 300) {
+      throw generateError(
+        'Debe introducir una url correcta o de menos de 300 caracteres',
+        400
+      );
     }
+
+    const id = await createLink(
+      req.userId,
+      url,
+      title,
+      description,
+    );
+
+    const link = await getLinkById(id);
+
+    res.send({
+      status: 'ok',
+      data: link,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 // Controlador que devuelva los links existentes
-const getLinkController = async (req, res, next) => {
-    try {
-        const links = await getAllLinks();
+const getLinksController = async (req, res, next) => {
+  try {
+    const links = await getAllLinks();
 
-        res.send({
-        status: 'ok',
-        data: links,
-         });
-    } catch(error) {
-        next(error);
-    }
+    res.send({
+      status: 'ok',
+      data: links,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Controlador para devolver un link concreto
+const getSingleLinkController = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const link = await getLinkById(id);
+
+    res.send({
+      status: 'ok',
+      data: link,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 // Controlador para borrar un link (sólo el del propio usuario)
 const deleteLinkController = async (req, res, next) => {
+  try {
+    const { id } = req.params;
 
-    try {
-        const {id} = req.params;
+    const link = await getLinkById(id);
 
-        const link = await getLinkById(id);
-    
-        console.log(link);
-    
-        if(req.userId !== link.user_id) {
-            throw generateError('Estás intentando borrar un enlace que no es tuyo', 401)
-        }
-
-        await deleteLinkById(id);
-
-        res.send({
-            status: 'ok',
-            message: `El link con id: ${id} fue borrado`,
-        });
-    } catch(error) {
-        next(error);
+    if (req.userId !== link.user_id) {
+      throw generateError(
+        'Estás intentando borrar un enlace que no es tuyo',
+        401
+      );
     }
+    // Borrar el link
+    await deleteLinkById(id);
+
+    res.send({
+      status: 'ok',
+      message: `El link con id: ${id} ha sido borrado`,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 // Exporto funciones de controladores de rutas de links
 module.exports = {
-    newLinkController,
-    getLinkController,
-    deleteLinkController,
+  newLinkController,
+  getLinksController,
+  getSingleLinkController,
+  deleteLinkController,
 };
