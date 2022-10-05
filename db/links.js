@@ -31,7 +31,7 @@ const getLinkById = async (id) => {
 
     const [result] = await connection.query(
       `
-        SELECT * FROM links WHERE id = ?
+        SELECT links.*, (SELECT COUNT(*) FROM votes WHERE link_id=links.id) as votes FROM links WHERE links.id = ?
         `,
       [id]
     );
@@ -55,7 +55,11 @@ const getLinksByUserId = async (id) => {
 
     const [result] = await connection.query(
       `
-            SELECT links.*, users.email FROM links LEFT JOIN users on links.user_id = users.id WHERE links.user_id = ?
+            SELECT links.*, users.email,
+            (SELECT COUNT(*) FROM votes WHERE link_id=links.id) as votes
+            FROM links 
+            LEFT JOIN users on links.user_id = users.id 
+            WHERE links.user_id = ?
             `,
       [id]
     );
@@ -74,7 +78,11 @@ const getAllLinks = async () => {
     connection = await getConnection();
 
     const [result] = await connection.query(`
-        SELECT * FROM links ORDER BY created_at DESC
+        SELECT links.*, users.name, 
+        (SELECT COUNT(*) FROM votes WHERE link_id=links.id) as votes
+        FROM links 
+        LEFT JOIN users ON links.user_id=users.id 
+        ORDER BY links.created_at DESC
         `);
 
     return result;

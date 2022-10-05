@@ -12,6 +12,8 @@ const newLinkController = async (req, res, next) => {
   try {
     const { url, title, description } = req.body;
 
+    console.log(req.body);
+
     if (!url || url.length > 300) {
       throw generateError(
         'Debe introducir una url correcta o de menos de 300 caracteres',
@@ -19,12 +21,7 @@ const newLinkController = async (req, res, next) => {
       );
     }
 
-    const id = await createLink(
-      req.userId,
-      url,
-      title,
-      description,
-    );
+    const id = await createLink(req.userId, url, title, description);
 
     const link = await getLinkById(id);
 

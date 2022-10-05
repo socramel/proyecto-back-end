@@ -48,9 +48,9 @@ async function main() {
         link_id INTEGER NOT NULL,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (user_id)
-            REFERENCES users(id),
+        REFERENCES users(id),
         FOREIGN KEY (link_id)
-            REFERENCES links(id)
+        REFERENCES links(id)
     );
 `);
   } catch (error) {

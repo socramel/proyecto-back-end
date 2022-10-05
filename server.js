@@ -23,16 +23,14 @@ const {
 } = require('./controllers/links');
 
 // Importo las funciones de los controladores de rutas de votes
-const {
-  newVoteController,
-  repeatVoteController,
-} = require('./controllers/votes');
+const { newVoteController } = require('./controllers/votes');
 
 const { authUser } = require('./middlewares/auth');
 
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded()); //procesa formularios (pero non con arquivos binarios)
 app.use(morgan('dev'));
 app.use(cors());
 
@@ -52,7 +50,7 @@ app.get('/links/:id', getSingleLinkController);
 app.delete('/links/:id', authUser, deleteLinkController);
 
 // Rutas de voto
-app.post('/votes/:id', authUser, repeatVoteController, newVoteController);
+app.post('/votes/:id', authUser, newVoteController);
 
 // Middleware de error 404
 app.use((req, res) => {
