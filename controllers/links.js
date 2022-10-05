@@ -76,6 +76,7 @@ const deleteLinkController = async (req, res, next) => {
         401
       );
     }
+
     // Borrar el link
     await deleteLinkById(id);
 

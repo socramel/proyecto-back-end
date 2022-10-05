@@ -30,7 +30,7 @@ const { authUser } = require('./middlewares/auth');
 const app = express();
 
 app.use(express.json());
-app.use(express.urlencoded()); //procesa formularios (pero non con arquivos binarios)
+app.use(express.urlencoded()); //procesa formularios (pero no con archivos binarios)
 app.use(morgan('dev'));
 app.use(cors());
 
@@ -67,13 +67,6 @@ app.use((error, req, res, next) => {
   res.status(error.httpStatus || 500).send({
     status: 'error',
     message: error.message,
-  });
-});
-
-app.use((req, res) => {
-  res.status(404).send({
-    status: 'error',
-    message: 'Página no encontrada',
   });
 });
 

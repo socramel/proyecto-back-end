@@ -1,5 +1,4 @@
-/* const { generateError } = require('../helpers');
- */ const { getConnection } = require('./db');
+const { getConnection } = require('./db');
 
 const getUserVotesForLink = async (userId, linkId) => {
   let connection;

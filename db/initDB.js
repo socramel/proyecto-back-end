@@ -15,9 +15,9 @@ async function main() {
 
     console.log('Creando tablas');
 
-    //Creo las tablas de las entidades definidas
+    //Creo las tablas de las entidades definidas:
 
-    // Usuarios
+    // 1. Usuarios
     await connection.query(`
     CREATE TABLE users (
         id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -28,7 +28,7 @@ async function main() {
     );
 `);
 
-    // Links
+    // 2. Links
     await connection.query(`
     CREATE TABLE links (
         id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -40,7 +40,7 @@ async function main() {
     );
 `);
 
-    // Votes
+    // 3. Votes
     await connection.query(`
     CREATE TABLE votes (
         id INTEGER PRIMARY KEY AUTO_INCREMENT,
